@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow border-0">
+            <div class="card-header bg-success text-white py-3">
+                <h5 class="mb-0 fw-bold"><i class="fa-solid fa-user-plus me-2"></i>Đăng ký tài khoản</h5>
+            </div>
+            <div class="card-body p-4">
+
+                <form asp-action="Register" method="post">
+
+                    <div class="form-group mb-3">
+                        <label class="fw-bold"><i class="fa-solid fa-address-card me-1"></i> Họ và tên</label>
+                        <input type="text" name="HoTen" class="form-control shadow-sm" placeholder="Nhập họ và tên đầy đủ..." required />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="fw-bold"><i class="fa-solid fa-calendar-days me-1"></i> Ngày sinh</label>
+                            <input type="date" name="NgaySinh" class="form-control shadow-sm" required />
+                        </div>
+
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="fw-bold"><i class="fa-solid fa-phone me-1"></i> Số điện thoại</label>
+                            <input type="text" name="SoDienThoai" class="form-control shadow-sm" placeholder="Ví dụ: 0901234567" required />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">Tên tài khoản mới</label>
+                        <input type="text" name="username" class="form-control" required autofocus placeholder="Ví dụ: vochong_nam, ketoan1..." />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">
+                            <i class="fa-solid fa-envelope me-1 text-success"></i> Email khôi phục
+                        </label>
+                        <input type="email" name="email" class="form-control" required placeholder="VD: van_a@gmail.com" autocomplete="off" />
+                        <div class="form-text small text-muted">Dùng để nhận mã OTP khôi phục khi quên mật khẩu.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">Mật khẩu</label>
+                        <input type="password" name="password" class="form-control" required placeholder="Nhập mật khẩu..." />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark">Xác nhận lại mật khẩu</label>
+                        <input type="password" name="confirmPassword" class="form-control" required placeholder="Nhập lại mật khẩu để xác nhận..." />
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4 pt-2 border-top">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary fw-bold shadow-sm px-4">
+                            <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+                        </a>
+                        <button type="submit" class="btn btn-success fw-bold shadow-sm px-4">
+                            <i class="fa-solid fa-check me-1"></i> Tạo tài khoản
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+
+<script>
+    // Bẫy lỗi C# từ Backend
+    @if (ViewBag.Error != null)
+    {
+        <text>
+        Swal.fire({
+            title: 'Có lỗi xảy ra!',
+            text: '@Html.Raw(ViewBag.Error)',
+            icon: 'error',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Thử lại'
+        });
+        </text>
+    }
+
+    // Tạo thành công -> Đá về Trang chủ
+    @if (ViewBag.Success != null)
+    {
+        <text>
+        Swal.fire({
+            title: '',
+            text: '@Html.Raw(ViewBag.Success)',
+            icon: 'success',
+            confirmButtonColor: '#198754',
+            confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '@Url.Action("Index", "Home")';
+            }
+        });
+        </text>
+    }
+</script>

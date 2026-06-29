@@ -1,0 +1,87 @@
+﻿@model QuanLyChiTieu.Models.UserProfileViewModel
+@{
+    ViewData["Title"] = "Hồ sơ cá nhân";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <h2 class="mb-0 fw-bold"><i class="fa-solid fa-user-pen me-2 text-primary"></i>Hồ sơ tài khoản</h2>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary shadow-sm">
+        <i class="fa-solid fa-arrow-left me-1"></i> Về Trang chủ
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow-sm border-0 bg-white">
+            <div class="card-header bg-primary text-white fw-bold py-3">
+                <i class="fa-solid fa-sliders me-1"></i> THÔNG TIN TÀI KHOẢN CỦA BẠN
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Profile" method="post">
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Tên tài khoản (Không thể đổi)</label>
+                            <input type="text" asp-for="TaiKhoan" class="form-control fw-bold bg-light text-primary" readonly />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Họ và tên</label>
+                            <input type="text" asp-for="HoTen" class="form-control" placeholder="Nhập họ và tên đầy đủ..." />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Ngày sinh</label>
+                            <input type="date" asp-for="NgaySinh" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Số điện thoại</label>
+                            <input type="text" asp-for="SoDienThoai" class="form-control" placeholder="Ví dụ: 0901234567" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Email khôi phục</label>
+                            <input type="email" asp-for="Email" class="form-control" placeholder="Nhập địa chỉ email..." autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <hr class="my-4 border-dashed" style="border-top: 1px dashed #ccc;" />
+
+                    <h6 class="fw-bold text-dark mb-3">
+                        <i class="fa-solid fa-lock me-2 text-warning"></i>Thay đổi mật khẩu
+                        <span class="text-muted small fw-normal">(Bỏ trống khu vực này nếu bạn giữ nguyên mật khẩu cũ)</span>
+                    </h6>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Mật khẩu hiện tại</label>
+                        <input type="password" asp-for="MatKhauCu" class="form-control" placeholder="Gõ mật khẩu cũ để xác thực quyền..." autocomplete="new-password" />
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Mật khẩu mới</label>
+                            <input type="password" asp-for="MatKhauMoi" class="form-control" placeholder="Nhập mật khẩu mới..." />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Xác nhận mật khẩu mới</label>
+                            <input type="password" asp-for="XacNhanMatKhauMoi" class="form-control" placeholder="Nhập lại mật khẩu mới..." />
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow-sm">
+                            <i class="fa-solid fa-check me-1"></i> LƯU THAY ĐỔI
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    @if (ViewBag.Error != null) { <text>Swal.fire({ title: 'Không thể lưu!', text: '@Html.Raw(ViewBag.Error)', icon: 'error', confirmButtonColor: '#dc3545' });</text> }
+    @if (ViewBag.Success != null) { <text>Swal.fire({ title: 'Thành công!', text: '@Html.Raw(ViewBag.Success)', icon: 'success', confirmButtonColor: '#0d6efd' });</text> }
+</script>

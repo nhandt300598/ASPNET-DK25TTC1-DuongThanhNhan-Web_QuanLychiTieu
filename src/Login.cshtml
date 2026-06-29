@@ -1,0 +1,71 @@
+﻿@{
+    // Tắt giao diện thanh menu chung để trang đăng nhập đứng độc lập
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập hệ thống</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            background-color: #f4f6f9;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            width: 400px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card shadow login-card border-0">
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h4 class="mb-0 fw-bold">HỆ THỐNG QUẢN LÝ TÀI CHÍNH</h4>
+        </div>
+        <div class="card-body p-4">
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger text-center py-2 small fw-bold">@ViewBag.Error</div>
+            }
+
+            <form asp-action="Login" method="post">
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-muted">Tài khoản</label>
+                    <input type="text" name="username" class="form-control" placeholder="Nhập tài khoản..." required autofocus />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-muted">Mật khẩu</label>
+                    <input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu..." required />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm">
+                    ĐĂNG NHẬP
+                </button>
+
+                <div class="text-center mt-3">
+                    <a asp-action="ForgotPassword" asp-controller="Account" class="text-decoration-none small text-muted">
+                        Quên mật khẩu tài khoản?
+                    </a>
+                </div>
+            </form>
+            <hr class="my-4 border-secondary border-opacity-25" />
+
+            <div class="text-center">
+                <span class="small text-muted d-block mb-2">Chưa có tài khoản?</span>
+                <a asp-action="Register" asp-controller="Account" class="btn btn-outline-primary w-100 fw-bold py-2 shadow-sm">
+                    <i class="fa-solid fa-user-plus me-1"></i> ĐĂNG KÝ TÀI KHOẢN
+                </a>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
