@@ -14,11 +14,22 @@ using System.Net.Mail;
 using QuanLyChiTieu.Models;
 using System.Text.RegularExpressions;
 using QuanLyChiTieu.Helpers;
+using Microsoft.Extensions.Configuration;
 
 namespace QuanLyChiTieu.Controllers
 {
     public class AccountController : Controller
-    {
+    {        
+        private readonly IConfiguration _config;
+        private readonly string connectionString;
+         
+        public AccountController(IConfiguration config)
+        {
+            _config = config;
+            connectionString = _config.GetConnectionString("DefaultConnection");
+        }
+
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -28,7 +39,7 @@ namespace QuanLyChiTieu.Controllers
         public async Task<IActionResult> Index()
         {
             List<TaiKhoanViewModel> danhSach = new List<TaiKhoanViewModel>();
-            string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
+            string connectionString = _config.GetConnectionString("DefaultConnection");
 
             using (SqlConnection con = new SqlConnection(connectionString))
             { 
@@ -80,7 +91,7 @@ namespace QuanLyChiTieu.Controllers
             DateTime? thoiGianKhoa = null;
             bool userExists = false;
 
-            string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
+            string connectionString = _config.GetConnectionString("DefaultConnection");
 
             using (SqlConnection con = new SqlConnection(connectionString))
             { 
@@ -235,7 +246,7 @@ namespace QuanLyChiTieu.Controllers
                 return View();
             }
 
-            string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
+            string connectionString = _config.GetConnectionString("DefaultConnection");
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string checkQuery = "SELECT COUNT(1) FROM NguoiDung WHERE TaiKhoan = @TaiKhoan";
@@ -292,7 +303,7 @@ namespace QuanLyChiTieu.Controllers
             string hashedOld = HashPassword(oldPassword);
             string hashedNew = HashPassword(newPassword);
 
-            string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
+            string connectionString = _config.GetConnectionString("DefaultConnection");
 
             using (SqlConnection con = new SqlConnection(connectionString))
             { 
@@ -325,7 +336,6 @@ namespace QuanLyChiTieu.Controllers
             return View();
         }
 
-        private readonly string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
 
         [HttpGet]
         public IActionResult ForgotPassword() => View();
