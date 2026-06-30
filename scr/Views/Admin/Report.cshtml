@@ -1,0 +1,98 @@
+﻿@model QuanLyChiTieu.Models.UserReportViewModel
+@{
+    ViewData["Title"] = "Báo cáo thống kê hệ thống";
+    int stt = 1;
+}
+
+<div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+    <h2 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-chart-line me-2 text-primary"></i>Báo Cáo Hoạt Động Người Dùng</h2>
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary fw-bold shadow-sm">
+        <i class="fa-solid fa-arrow-left me-1"></i> Về Quản lý User
+    </a>
+</div>
+
+<div class="row mb-4">
+
+    <div class="col-md-6 mb-3">
+        <div class="card border-0 shadow-sm text-white" style="background: linear-gradient(135deg, #ff416c, #ff4b2b);">
+            <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase small fw-bold opacity-75"><i class="fa-solid fa-crown me-1 text-warning"></i> Dùng tiền nhiều nhất</span>
+                    <h2 class="my-2 fw-bold">@(Model.VuaTiTieu?.TaiKhoan ?? "Chưa có")</h2>
+                    <div class="fs-5 fw-semibold">Tổng chi: <span class="text-warning">@(Model.VuaTiTieu?.TongTienChi.ToString("N0") ?? "0") VNĐ</span></div>
+                </div>
+                <i class="fa-solid fa-fire-flame-curved opacity-25" style="font-size: 5rem;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="card border-0 shadow-sm text-white" style="background: linear-gradient(135deg, #1e3c72, #2a5298);">
+            <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase small fw-bold opacity-75"><i class="fa-solid fa-trophy me-1 text-warning"></i> Hoạt động tích cực nhất</span>
+                    <h2 class="my-2 fw-bold">@(Model.VuaChamChi?.TaiKhoan ?? "Chưa có")</h2>
+                    <div class="fs-5 fw-semibold">Đã tạo: <span class="text-warning">@(Model.VuaChamChi?.TongSoGiaoDich ?? 0)</span> giao dịch</div>
+                </div>
+                <i class="fa-solid fa-keyboard opacity-25" style="font-size: 5rem;"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-dark text-white py-3 fw-bold">
+        <i class="fa-solid fa-ranking-star me-2 text-warning"></i>BẢNG XẾP HẠNG CHI TIÊU TOÀN HỆ THỐNG
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light text-muted small text-uppercase">
+                <tr>
+                    <th class="text-center" style="width: 80px;">Top</th>
+                    <th>Tài khoản</th>
+                    <th class="text-end">Tổng tiền Thu vào</th>
+                    <th class="text-end">Tổng tiền Chi ra</th>
+                    <th class="text-center">Số giao dịch</th>
+                    <th class="text-center">Đánh giá</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.DanhSach)
+                {
+                    <tr>
+                        <td class="text-center fw-bold fs-5 @(stt <= 3 ? "text-danger" : "text-muted")">
+                            @(stt++)
+                        </td>
+                        <td class="fw-bold text-primary fs-6">
+                            <i class="fa-solid fa-user me-2 text-secondary"></i>@item.TaiKhoan
+                        </td>
+                        <td class="text-end fw-bold text-success">
+                            + @item.TongTienThu.ToString("N0") đ
+                        </td>
+                        <td class="text-end fw-bold text-danger fs-6">
+                            - @item.TongTienChi.ToString("N0") đ
+                        </td>
+                        <td class="text-center fw-bold">
+                            <span class="badge bg-secondary rounded-pill px-3 py-2">@item.TongSoGiaoDich</span>
+                        </td>
+                        <td class="text-center">
+                            @if (item.TongTienChi > 10000000)
+                            {
+                                <span class="badge bg-danger">Khách hàng lớn</span>
+                            }
+                            else if (item.TongSoGiaoDich == 0)
+                            {
+                                <span class="badge bg-light text-muted border">Chưa ghi nhận hoạt động</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Người dùng hoạt động</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

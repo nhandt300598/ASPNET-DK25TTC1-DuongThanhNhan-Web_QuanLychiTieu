@@ -1,0 +1,169 @@
+﻿@using Microsoft.Data.SqlClient
+@using System.Data
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Quản lý chi tiêu</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <style>
+        /* SỬA LỖI CS0103: Thêm @@ để Razor hiểu đây là CSS chứ không phải C# */
+        @@keyframes cuonXuongMoDan {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hiệu ứng mượt mà khi mở Dropdown */
+        .dropdown-menu.show {
+            display: block !important;
+            animation: cuonXuongMoDan 0.25s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                @if (User.Identity.IsAuthenticated && User.Identity.Name?.Trim().ToLower() == "admin")
+                {
+                    <a class="navbar-brand fw-bold text-primary" asp-controller="Admin" asp-action="Report">
+                        <i class="fa-solid fa-wallet me-2"></i>Quản lý chi tiêu
+                    </a>
+                }
+                else
+                {
+                    <a class="navbar-brand fw-bold text-primary" asp-controller="Home" asp-action="Index">
+                        <i class="fa-solid fa-wallet me-2"></i>Quản lý chi tiêu
+                    </a>
+                }
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1"></ul>
+
+                    <ul class="navbar-nav align-items-center gap-2">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            string currentUser = User.Identity.Name?.Trim().ToLower() ?? "";
+
+                            @if (currentUser == "admin")
+                            {
+                                <li class="nav-item dropdown" style="margin-right: 10px;">
+                                    <a class="btn btn-dark btn-sm fw-bold shadow-sm dropdown-toggle px-3 text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa-solid fa-user-shield me-1 text-warning"></i> Nghiệp vụ Admin
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow border-0 mt-2" style="min-width: 220px; z-index: 10000;">
+                                        <a class="dropdown-item py-2 fw-semibold" asp-controller="Admin" asp-action="Report">
+                                            <i class="fa-solid fa-chart-pie me-2 text-warning"></i> Thống kê báo cáo
+                                        </a>
+                                        <a class="dropdown-item py-2 fw-semibold" asp-controller="Admin" asp-action="Index">
+                                            <i class="fa-solid fa-users-gear me-2 text-primary"></i> Quản lý người dùng
+                                        </a>
+                                        <a class="dropdown-item py-2 fw-semibold" asp-controller="Account" asp-action="Register">
+                                            <i class="fa-solid fa-user-plus me-2 text-success"></i> Cấp tài khoản mới
+                                        </a>
+                                        <a class="dropdown-item py-2 fw-semibold" asp-controller="Admin" asp-action="Category">
+                                            <i class="fa-solid fa-folder-tree me-2 text-info"></i> Cấu hình danh mục
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item py-2 fw-semibold text-danger" asp-controller="Admin" asp-action="Broadcast">
+                                            <i class="fa-solid fa-tower-broadcast me-2"></i> Thiết lập thông báo
+                                        </a>
+                                    </div>
+                                </li>
+                            }
+
+                            <li class="nav-item" style="margin-right: 10px;">
+                                <a class="btn btn-outline-primary btn-sm fw-bold shadow-sm px-3" asp-controller="Account" asp-action="Profile">
+                                    <i class="fa-solid fa-user-pen me-1"></i> Cập nhật thông tin (@User.Identity.Name)
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="btn btn-danger btn-sm fw-bold shadow-sm text-white px-3" asp-controller="Account" asp-action="Logout">
+                                    <i class="fa-solid fa-right-from-bracket me-1"></i> Đăng xuất
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-primary btn-sm fw-bold shadow-sm px-3" asp-controller="Account" asp-action="Login">
+                                    <i class="fa-solid fa-right-to-bracket me-1"></i> Đăng nhập
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @{
+        string chuoiKetNoiLoa = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
+        string msgNoiDung = "";
+        string msgMau = "";
+
+        // Bọc try-catch để tránh crash toàn bộ giao diện nếu DB mất kết nối đột ngột
+        try
+        {
+            using (SqlConnection conLoa = new SqlConnection(chuoiKetNoiLoa))
+            {
+                string sqlLoa = "SELECT TOP 1 NoiDung, LoaiAlert FROM ThongBaoHeThong WHERE TrangThai = 1 AND NgayHetHan > GETDATE() ORDER BY Id DESC";
+                using (SqlCommand cmdLoa = new SqlCommand(sqlLoa, conLoa))
+                {
+                    conLoa.Open();
+                    using (SqlDataReader rLoa = cmdLoa.ExecuteReader())
+                    {
+                        if (rLoa.Read())
+                        {
+                            msgNoiDung = rLoa["NoiDung"].ToString();
+                            msgMau = rLoa["LoaiAlert"].ToString();
+                        }
+                    }
+                }
+            }
+        }
+        catch { }
+    }
+
+    @if (!string.IsNullOrEmpty(msgNoiDung))
+    {
+        <div class="alert alert-@msgMau rounded-0 m-0 py-2 border-0 shadow-sm d-flex align-items-center justify-content-center fw-bold" style="z-index: 9999;">
+            <i class="fa-solid fa-bullhorn me-3 fs-5 text-dark"></i>
+            <marquee behavior="scroll" direction="left" scrollamount="7" style="max-width: 850px;" class="text-dark">
+                ★ THÔNG BÁO: @msgNoiDung ★
+            </marquee>
+        </div>
+    }
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
