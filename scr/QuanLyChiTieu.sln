@@ -1,9 +1,8 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.37301.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyChiTieu", "QuanLyChiTieu\QuanLyChiTieu.csproj", "{F417E071-3972-45EA-91C6-BB9662F26056}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyChiTieu", "QuanLyChiTieu.csproj", "{F417E071-3972-45EA-91C6-BB9662F26056}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
