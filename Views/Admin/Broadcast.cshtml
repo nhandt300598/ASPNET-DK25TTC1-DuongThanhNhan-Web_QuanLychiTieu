@@ -1,0 +1,105 @@
+﻿@model List<QuanLyChiTieu.Models.ThongBaoViewModel>
+@{
+    ViewData["Title"] = "Trạm phát thanh hệ thống";
+}
+
+<div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+    <h2 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-tower-broadcast me-2 text-danger"></i>Phát Thanh Hệ Thống</h2>
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary fw-bold shadow-sm">
+        <i class="fa-solid fa-arrow-left me-1"></i> Về Quản lý User
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-5 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-danger text-white fw-bold py-3">
+                <i class="fa-solid fa-bullhorn me-1"></i> TẠO THÔNG BÁO TOÀN SÀN
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="CreateBroadcast" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small">Nội dung thông báo (Max 500 chữ)</label>
+                        <textarea name="noiDung" class="form-control" rows="3" placeholder="VD: Hệ thống bảo trì lúc 22h00 tối nay. Vui lòng lưu lại dữ liệu!" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small">Mức độ cảnh báo (Màu nền)</label>
+                        <select name="loaiAlert" class="form-select fw-bold">
+                            <option value="warning" class="bg-warning text-dark">🟨 Báo động Vàng (Bảo trì, Chú ý)</option>
+                            <option value="danger" class="bg-danger text-white">🟥 Báo động Đỏ (Khẩn cấp, Cấm lỗi)</option>
+                            <option value="info" class="bg-info text-dark">🟦 Thông báo Xanh (Tính năng mới)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small">Thời điểm tự động tháo dỡ sóng</label>
+                        <input type="datetime-local" name="ngayHetHan" class="form-control fw-bold text-primary" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-danger w-100 fw-bold py-2 shadow-sm text-uppercase">
+                        <i class="fa-solid fa-satellite-dish me-1"></i> Phát sóng ngay
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-7 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-dark text-white fw-bold py-3">
+                <i class="fa-solid fa-clock-rotate-left me-1"></i> LỊCH SỬ CÁC BẢN TIN
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light text-muted small">
+                        <tr>
+                            <th class="ps-3">Nội dung</th>
+                            <th>Hết hạn lúc</th>
+                            <th>Trạng thái</th>
+                            <th class="text-center">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            bool isHan = item.NgayHetHan < DateTime.Now;
+                            <tr>
+                                <td class="ps-3 fw-bold small text-dark" style="max-width: 200px;">@item.NoiDung</td>
+                                <td class="small">@item.NgayHetHan.ToString("dd/MM HH:mm")</td>
+                                <td>
+                                    @if (!item.TrangThai || isHan)
+                                    {
+                                        <span class="badge bg-secondary fw-normal">Đã tắt / Hết hạn</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success animate__animated animate__pulse animate__infinite">Đang phát sóng</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @if (item.TrangThai && !isHan)
+                                    {
+                                        <form asp-action="StopBroadcast" method="post">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger fw-bold" title="Rút phích cắm loa ngay lập tức">
+                                                <i class="fa-solid fa-power-off"></i> Tắt
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+<script>
+    @if (TempData["ErrorMessage"] != null) { <text>Swal.fire({ title: 'Lỗi!', text: '@Html.Raw(TempData["ErrorMessage"])', icon: 'error' });</text> }
+    @if (TempData["SuccessMessage"] != null) { <text>Swal.fire({ title: 'Thành công!', text: '@Html.Raw(TempData["SuccessMessage"])', icon: 'success' });</text> }
+</script>

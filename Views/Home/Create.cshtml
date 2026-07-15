@@ -1,0 +1,103 @@
+﻿@model QuanLyChiTieu.Models.GiaoDich
+
+@{
+    ViewData["Title"] = "Thêm mới giao dịch";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Thêm Giao Dịch Mới</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+
+                    <div class="mb-3">
+                        <label asp-for="NgayGiaoDich" class="form-label">Ngày giao dịch</label>
+                        <input asp-for="NgayGiaoDich" type="datetime-local" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="LoaiGiaoDich" class="form-label">Loại giao dịch</label>
+                        <select asp-for="LoaiGiaoDich" class="form-select" required>
+                            <option value="Chi">Chi (Tiền ra)</option>
+                            <option value="Thu">Thu (Tiền vào)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DanhMuc" class="form-label">Danh mục</label>
+                        <select asp-for="DanhMuc" class="form-select" required>
+                            <option value="">-- Chọn danh mục chuẩn --</option>
+
+                            @if (ViewBag.DanhSachDanhMuc != null)
+                            {
+                                foreach (var dm in ViewBag.DanhSachDanhMuc as List<string>)
+                                {
+                                    <option value="@dm">@dm</option>
+}
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="SoTien" class="form-label">Số tiền (VNĐ)</label>
+
+                        <input type="text" id="txtSoTien" class="form-control" value="0" autocomplete="off" />
+
+                        <input type="hidden" asp-for="SoTien" id="hiddenSoTien" value="0" />
+
+                        <span asp-validation-for="SoTien" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="GhiChu" class="form-label">Ghi chú</label>
+                        <textarea asp-for="GhiChu" class="form-control" rows="3" placeholder="Nhập ghi chú (nếu có)..."></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+                        <button type="submit" class="btn btn-success">Lưu Giao Dịch</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            const txtSoTien = $('#txtSoTien');
+            const hiddenSoTien = $('#hiddenSoTien');
+             
+            function formatCurrency(input) { 
+                let rawValue = input.val().replace(/[^0-9]/g, '');
+                 
+                if (!rawValue) rawValue = '0';                 
+                let intValue = parseInt(rawValue, 10);
+                hiddenSoTien.val(intValue);
+                input.val(intValue.toLocaleString('vi-VN'));
+            }
+
+            txtSoTien.on('input', function () {
+                formatCurrency($(this));
+            });
+
+            txtSoTien.on('focus', function () {
+                if ($(this).val() === '0') {
+                    $(this).val('');
+                }
+            });
+
+            txtSoTien.on('blur', function () {
+                if ($(this).val() === '') {
+                    $(this).val('0');
+                    hiddenSoTien.val('0');
+                }
+            });
+        });
+    </script>
+}
