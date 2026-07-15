@@ -79,6 +79,7 @@ namespace QuanLyChiTieu.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
+            //kiểm tra đăng nhập
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 ViewBag.Error = "Vui lòng nhập đầy đủ thông tin!";
