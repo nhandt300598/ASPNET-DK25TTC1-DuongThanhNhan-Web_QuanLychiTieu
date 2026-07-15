@@ -1,0 +1,2 @@
+
+tuần này chỉnh sửa danh mục controller lấy config từ app config và chỉnh sửa trang danh mục cho phép người dùng tự cấu hình các mục thu và chi cho riêng mình.
