@@ -120,7 +120,7 @@ namespace QuanLyChiTieu.Controllers
                     ViewBag.Error = "Tài khoản hoặc mật khẩu không chính xác!";
                     return View();
                 }
-                 
+                 //nhập sai mật khẩu nhiều quá lock tài khoản
                 if (thoiGianKhoa.HasValue && thoiGianKhoa.Value > DateTime.Now)
                 { 
                     var minutesLeft = Math.Ceiling((thoiGianKhoa.Value - DateTime.Now).TotalMinutes);
