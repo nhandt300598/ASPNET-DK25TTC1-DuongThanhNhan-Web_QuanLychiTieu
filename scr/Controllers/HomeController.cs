@@ -28,8 +28,7 @@ namespace QuanLyChiTieu.Controllers
         // Hàm dùng chung để lấy danh sách từ điển danh mục dưới SQL
         private async Task<List<string>> GetDanhSachDanhMucAsync()
         {
-            List<string> danhSach = new List<string>();
-           // string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
+            List<string> danhSach = new List<string>(); 
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -52,10 +51,7 @@ namespace QuanLyChiTieu.Controllers
         public async Task<IActionResult> Index(DateTime? tuNgay, DateTime? denNgay, string loaiGiaoDich, string tuKhoa, int trang = 1, int pageSize = 10)
         {
             string taiKhoanHienTai = User.Identity.Name;
-            List<GiaoDich> danhSachTatCa = new List<GiaoDich>();
-            // string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
-
-            // 1. ĐỌC TOÀN BỘ DỮ LIỆU TỪ SQL
+            List<GiaoDich> danhSachTatCa = new List<GiaoDich>(); 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 await con.OpenAsync();
@@ -84,8 +80,7 @@ namespace QuanLyChiTieu.Controllers
                 List<string> dsDm = new List<string>();
 
                 using (SqlCommand cmdDM = new SqlCommand(queryDM, con))
-                {
-                    // Bảng DanhMuc nếu không chia theo TaiKhoan thì không cần WHERE
+                { 
                     using (SqlDataReader readerDM = await cmdDM.ExecuteReaderAsync())
                     {
                         while (await readerDM.ReadAsync())
@@ -167,9 +162,7 @@ namespace QuanLyChiTieu.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            string tkHienTai = User.Identity.Name;
-
-            //string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
+            string tkHienTai = User.Identity.Name; 
             List<DanhMuc> dsDanhMuc = new List<DanhMuc>();
 
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -255,8 +248,7 @@ namespace QuanLyChiTieu.Controllers
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 await con.OpenAsync();
-
-                // Sử dụng Transaction để đảm bảo tính toàn vẹn: Hoặc lưu hết, hoặc lỗi không lưu gì cả
+ 
                 using (SqlTransaction transaction = con.BeginTransaction())
                 {
                     try
