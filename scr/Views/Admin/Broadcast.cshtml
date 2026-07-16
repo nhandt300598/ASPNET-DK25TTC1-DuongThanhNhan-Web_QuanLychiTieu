@@ -1,10 +1,10 @@
 ﻿@model List<QuanLyChiTieu.Models.ThongBaoViewModel>
 @{
-    ViewData["Title"] = "Trạm phát thanh hệ thống";
+    ViewData["Title"] = "Thông báo hệ thống";
 }
 
 <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
-    <h2 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-tower-broadcast me-2 text-danger"></i>Phát Thanh Hệ Thống</h2>
+    <h2 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-tower-broadcast me-2 text-danger"></i>Thông Báo Hệ Thống</h2>
     <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary fw-bold shadow-sm">
         <i class="fa-solid fa-arrow-left me-1"></i> Về Quản lý User
     </a>
@@ -14,7 +14,7 @@
     <div class="col-md-5 mb-4">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-danger text-white fw-bold py-3">
-                <i class="fa-solid fa-bullhorn me-1"></i> TẠO THÔNG BÁO TOÀN SÀN
+                <i class="fa-solid fa-bullhorn me-1"></i> TẠO THÔNG BÁO TOÀN HỆ THỐNG
             </div>
             <div class="card-body p-4">
                 <form asp-action="CreateBroadcast" method="post">
@@ -33,12 +33,12 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label fw-bold small">Thời điểm tự động tháo dỡ sóng</label>
+                        <label class="form-label fw-bold small">Thời điểm tự động tắt thông báo</label>
                         <input type="datetime-local" name="ngayHetHan" class="form-control fw-bold text-primary" required />
                     </div>
 
                     <button type="submit" class="btn btn-danger w-100 fw-bold py-2 shadow-sm text-uppercase">
-                        <i class="fa-solid fa-satellite-dish me-1"></i> Phát sóng ngay
+                        <i class="fa-solid fa-satellite-dish me-1"></i> Thông báo ngay
                     </button>
                 </form>
             </div>
