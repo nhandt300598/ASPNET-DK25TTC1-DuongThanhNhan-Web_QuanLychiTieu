@@ -1,13 +1,17 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace QuanLyChiTieu.Helpers
 {
     public static class ThaoTacHeThong
-    {
-        // Nhớ cập nhật chuỗi kết nối của bạn ở đây
-        private static string chuoiKetNoi = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
+    { 
+         private static string? chuoiKetNoi; 
+        public static void KhoiTao(IConfiguration config)
+        {
+            chuoiKetNoi = config.GetConnectionString("DefaultConnection");
+        }
 
         public static void GhiNhatKy(HttpContext context, string taiKhoan, string hanhDong, string chiTiet)
         {

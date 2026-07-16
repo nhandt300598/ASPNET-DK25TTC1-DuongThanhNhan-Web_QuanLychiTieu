@@ -8,13 +8,21 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace QuanLyChiTieu.Controllers
 { 
     [Authorize]
     public class AdminController : Controller
     {
-        private readonly string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
+         private readonly IConfiguration _config;
+        private readonly string connectionString;
+         
+        public AdminController(IConfiguration config)
+        {
+            _config = config;
+            connectionString = _config.GetConnectionString("DefaultConnection");
+        } 
 
         // 1. Hiển thị danh sách người dùng
         public async Task<IActionResult> Index()
@@ -309,9 +317,9 @@ namespace QuanLyChiTieu.Controllers
         public async Task<IActionResult> AuditLog()
         {
             List<NhatKyHeThong> danhSach = new List<NhatKyHeThong>();
-            string chuoiKetNoi = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=DB_QuanLyChiTieu;Integrated Security=True;Encrypt=False;";
+            
 
-            using (SqlConnection conn = new SqlConnection(chuoiKetNoi))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string sql = "SELECT * FROM NhatKyHeThong ORDER BY ThoiGianTao DESC";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
