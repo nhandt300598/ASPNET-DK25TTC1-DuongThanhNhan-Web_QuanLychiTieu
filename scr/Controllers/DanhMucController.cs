@@ -19,7 +19,7 @@ namespace QuanLyChiTieu.Controllers
             connectionString = _config.GetConnectionString("DefaultConnection");
         }
         
-            string connectionString = _config.GetConnectionString("DefaultConnection");
+         //connectionString = _config.GetConnectionString("DefaultConnection");
         public async Task<IActionResult> Index()
         {
             string tkHienTai = User.Identity.Name;

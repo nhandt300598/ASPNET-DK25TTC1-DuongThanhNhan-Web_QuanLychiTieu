@@ -20,7 +20,7 @@ namespace QuanLyChiTieu.Controllers
           private readonly IConfiguration _config;
         private readonly string connectionString;
          
-        public AccountController(IConfiguration config)
+        public HomeController(IConfiguration config)
         {
             _config = config;
             connectionString = _config.GetConnectionString("DefaultConnection");
