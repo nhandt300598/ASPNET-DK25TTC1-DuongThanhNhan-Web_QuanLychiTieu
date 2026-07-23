@@ -24,8 +24,7 @@ namespace QuanLyChiTieu.Controllers
         {
             _config = config;
             connectionString = _config.GetConnectionString("DefaultConnection");
-        }
-        // Hàm dùng chung để lấy danh sách từ điển danh mục dưới SQL
+        } 
         private async Task<List<string>> GetDanhSachDanhMucAsync()
         {
             List<string> danhSach = new List<string>(); 
@@ -156,8 +155,6 @@ namespace QuanLyChiTieu.Controllers
 
             return View(danhSachPhanTrang);
         }
-
-
       
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -468,7 +465,6 @@ namespace QuanLyChiTieu.Controllers
 
                     if (rowsAffected > 0)
                     {
-                        // DÒNG QUAN TRỌNG NHẤT: Gán thông báo thành công vào TempData
                         TempData["SuccessMessage"] = "Cập nhật hạn mức chi tiêu thành công!";
                     }
                     else

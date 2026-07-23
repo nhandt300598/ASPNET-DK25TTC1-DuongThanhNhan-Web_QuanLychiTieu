@@ -2,8 +2,7 @@
 @{
     ViewData["Title"] = "404 - Không tìm thấy trang";
     Layout = "_Layout";
-
-    // MA THUẬT: Móc cái "ngăn kéo bí mật" của ASP.NET ra để bóc đường dẫn gốc
+ 
     var statusCodeFeature = Context.Features.Get<IStatusCodeReExecuteFeature>();
     string originalUrl = statusCodeFeature?.OriginalPath ?? Context.Request.Path.Value;
 }

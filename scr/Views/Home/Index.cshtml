@@ -530,8 +530,7 @@
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
 
-<script>
-    // BẮN POPUP KHI UPDATE THÀNH CÔNG
+<script> 
     document.addEventListener("DOMContentLoaded", function () {
         @if (TempData["SuccessMessage"] != null)
         {
@@ -581,8 +580,7 @@
         }
         try { $(modalEl).modal('hide'); } catch (e) { }
     });
-
-    // 1. CHART THU CHI (Doughnut)
+ 
     const tongThu = @(ViewBag.TongThu ?? 0);
     const tongChi = @(ViewBag.TongChi ?? 0);
 
@@ -594,8 +592,7 @@
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
         });
     }
-
-    // 2. CHART CƠ CẤU DANH MỤC CHI (Pie Chart)
+ 
     const dmLabels = [];
     const dmData = [];
     const dmColors = ['#fc5c65', '#fd9644', '#fed330', '#2bcbba', '#45aaf2', '#4b7bec', '#a55eea', '#778ca3', '#20bf6b', '#eb3b5a'];
@@ -630,8 +627,7 @@
     } else {
         document.getElementById('danhMucChart').parentNode.innerHTML = "<span class='text-muted small'>Chưa có dữ liệu chi tiêu</span>";
     }
-
-    // 3. CHART BIẾN ĐỘNG THEO THÁNG
+ 
     const thangLabels = []; const thangDataThu = []; const thangDataChi = [];
 
     @{
@@ -680,19 +676,12 @@
             showCancelButton: true, confirmButtonColor: '#dc3545', cancelButtonColor: '#6c757d',
             confirmButtonText: 'Đồng ý!', cancelButtonText: 'Hủy bỏ'
         }).then((result) => { if (result.isConfirmed) window.location.href = url; });
-    }
+    } 
 
-    // =========================================================================
-    // LOGIC "MÚA DẤU CHẤM" BẤT TỬ (CHỈ TÌM TRONG PHẠM VI .INPUT-GROUP)
-    // =========================================================================
     $(document).on('input', '.input-tien-te', function () {
         let raw = $(this).val().replace(/[^0-9]/g, '');
-        let val = raw ? parseInt(raw, 10) : 0;
-
-        // 1. Cập nhật mặt văn bản hiển thị (Ví dụ: "3.500.000")
-        $(this).val(val === 0 ? '' : val.toLocaleString('vi-VN'));
-
-        // 2. Chép con số nguyên thô (3500000) gán đè đúng vào thẻ hidden nằm cùng 1 block input-group
+        let val = raw ? parseInt(raw, 10) : 0; 
+        $(this).val(val === 0 ? '' : val.toLocaleString('vi-VN')); 
         $(this).closest('.input-group').find('.hidden-tien-te').val(val);
     });
 

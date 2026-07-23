@@ -14,7 +14,7 @@ namespace QuanLyChiTieu.Models
         public decimal SoTien { get; set; }
 
         [Display(Name = "Loại")]    
-        public string LoaiGiaoDich { get; set; } // "Thu" hoặc "Chi"
+        public string LoaiGiaoDich { get; set; } 
 
         [Display(Name = "Danh mục")]
         public string DanhMuc { get; set; }

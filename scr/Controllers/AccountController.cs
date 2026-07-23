@@ -64,8 +64,6 @@ namespace QuanLyChiTieu.Controllers
                                 TaiKhoan = reader["TaiKhoan"].ToString(),
                                 Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : "",
                                 TrangThai = Convert.ToBoolean(reader["TrangThai"]),
-
-                                // Bổ sung đọc 2 cột mới:
                                 LanDangNhapCuoi = reader["LanDangNhapCuoi"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(reader["LanDangNhapCuoi"]) : null,
                                 SoGiaoDich30Ngay = Convert.ToInt32(reader["SoGiaoDich"])
                             });
@@ -607,74 +605,7 @@ namespace QuanLyChiTieu.Controllers
             }
 
             return View(model);
-        }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Profile(UserProfileViewModel model)
-        //{
-        //    string tkHienTai = User.Identity.Name;
-        //    model.TaiKhoan = tkHienTai; 
-
-        //    bool muonDoiPass = !string.IsNullOrEmpty(model.MatKhauMoi) || !string.IsNullOrEmpty(model.XacNhanMatKhauMoi);
-
-        //    if (muonDoiPass && string.IsNullOrEmpty(model.MatKhauCu))
-        //    {
-        //        ViewBag.Error = "Vui lòng nhập [Mật khẩu hiện tại] để cho phép đổi mật khẩu mới!";
-        //        return View(model);
-        //    }
-
-        //    if (muonDoiPass && (model.MatKhauMoi != model.XacNhanMatKhauMoi))
-        //    {
-        //        ViewBag.Error = "Mật khẩu mới và ô xác nhận không trùng khớp!";
-        //        return View(model);
-        //    }
-
-        //    using (SqlConnection con = new SqlConnection(connectionString))
-        //    {
-        //        await con.OpenAsync();
-
-        //        if (!string.IsNullOrEmpty(model.MatKhauCu))
-        //        {
-        //            string hashedOld = HashPassword(model.MatKhauCu);
-
-        //            string checkQ = "SELECT COUNT(1) FROM NguoiDung WHERE TaiKhoan = @TK AND MatKhau = @MKCu";
-        //            using (SqlCommand chkCmd = new SqlCommand(checkQ, con))
-        //            {
-        //                chkCmd.Parameters.AddWithValue("@TK", tkHienTai);
-        //                chkCmd.Parameters.AddWithValue("@MKCu", hashedOld);
-        //                if ((int)await chkCmd.ExecuteScalarAsync() == 0)
-        //                {
-        //                    ViewBag.Error = "Mật khẩu hiện tại không chính xác!";
-        //                    return View(model);
-        //                }
-        //            }
-
-        //            string hashedNew = HashPassword(model.MatKhauMoi);
-        //            string updateBoth = "UPDATE NguoiDung SET Email = @Email, MatKhau = @MKMoi WHERE TaiKhoan = @TK";
-        //            using (SqlCommand cmd = new SqlCommand(updateBoth, con))
-        //            {
-        //                cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(model.Email) ? DBNull.Value : model.Email.Trim());
-        //                cmd.Parameters.AddWithValue("@MKMoi", hashedNew);
-        //                cmd.Parameters.AddWithValue("@TK", tkHienTai);
-        //                await cmd.ExecuteNonQueryAsync();
-        //            }
-        //            ViewBag.Success = "Đã cập nhật thành công cả Email và Mật khẩu!";
-        //        }
-        //        else
-        //        {
-        //            string updateEmail = "UPDATE NguoiDung SET Email = @Email WHERE TaiKhoan = @TK";
-        //            using (SqlCommand cmd = new SqlCommand(updateEmail, con))
-        //            {
-        //                cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(model.Email) ? DBNull.Value : model.Email.Trim());
-        //                cmd.Parameters.AddWithValue("@TK", tkHienTai);
-        //                await cmd.ExecuteNonQueryAsync();
-        //            }
-        //            ViewBag.Success = "Cập nhật địa chỉ Email thành công!";
-        //        }
-        //    }
-
-        //    return View(model);
-        //}
+        } 
 
     }
 }

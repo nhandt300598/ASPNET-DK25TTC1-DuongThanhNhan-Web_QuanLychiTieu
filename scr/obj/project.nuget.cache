@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kkErOkWNI6zMgZc3IV2gktgZmgCGuX3enDai02V5/C6kFfYGqnvu534/jCRykMcDXSr5DoO5Tve5hzwP+7IYxA==",
+  "dgSpecHash": "xzYvCYyu70lxVhU+FPVozusU3YUM11dLy/QAhXz6/nHGIlAa72L8xGvyVX/2GZx3zTt2/sJmQolS2OTubiLzzw==",
   "success": true,
-  "projectFilePath": "d:\\TVU\\ASPNET-DK25TTC1-DuongThanhNhan-Web_QuanLychiTieu\\scr\\scr\\QuanLychiTieu\\scr\\QuanLyChiTieu.csproj",
+  "projectFilePath": "D:\\TVU\\ASPNET-DK25TTC1-DuongThanhNhan-Web_QuanLychiTieu\\scr\\scr\\QuanLychiTieu\\scr\\QuanLyChiTieu.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

@@ -23,8 +23,7 @@ namespace QuanLyChiTieu.Controllers
             _config = config;
             connectionString = _config.GetConnectionString("DefaultConnection");
         } 
-
-        // 1. Hiển thị danh sách người dùng
+ 
         public async Task<IActionResult> Index()
         {
             if (User.Identity.Name != "admin") return RedirectToAction("Index", "Home");
@@ -144,11 +143,9 @@ namespace QuanLyChiTieu.Controllers
                 }
             }
 
-            model.DanhSach = list;
-             
+            model.DanhSach = list;             
             model.VuaTiTieu = list.OrderByDescending(x => x.TongTienChi).FirstOrDefault();
             model.VuaChamChi = list.OrderByDescending(x => x.TongSoGiaoDich).FirstOrDefault();
-
             return View(model);
         }
 
