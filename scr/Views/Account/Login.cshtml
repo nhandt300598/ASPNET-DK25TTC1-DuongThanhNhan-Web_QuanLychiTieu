@@ -1,5 +1,4 @@
 ﻿@{
-    // Tắt giao diện thanh menu chung để trang đăng nhập đứng độc lập
     Layout = null;
 }
 <!DOCTYPE html>
@@ -9,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng nhập hệ thống</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /> 
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> 
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <style>
         body {
             background-color: #f4f6f9;
@@ -26,6 +27,11 @@
     </style>
 </head>
 <body>
+    <button id="btn-theme-toggle-login" class="btn btn-outline-secondary btn-sm shadow-sm" 
+        style="position: fixed; top: 20px; right: 20px; z-index: 1000;" 
+        title="Chuyển chế độ Sáng/Tối">
+    <i class="fa-solid fa-moon" id="theme-icon-login"></i>
+</button>
     <div class="card shadow login-card border-0">
         <div class="card-header bg-primary text-white text-center py-3">
             <h4 class="mb-0 fw-bold">HỆ THỐNG QUẢN LÝ TÀI CHÍNH</h4>
@@ -67,5 +73,45 @@
 
         </div>
     </div>
+    
+   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const themeToggleBtn = document.getElementById('btn-theme-toggle-login');
+        const themeIcon = document.getElementById('theme-icon-login');
+        const htmlElement = document.documentElement;
+
+       
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            htmlElement.setAttribute('data-theme', 'dark');
+            document.body.style.backgroundColor = '#121212'; 
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        }
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                let theme = htmlElement.getAttribute('data-theme');
+
+                if (theme === 'dark') {
+                    htmlElement.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    document.body.style.backgroundColor = ''; 
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                } else {
+                    htmlElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    document.body.style.backgroundColor = '#121212'; 
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            });
+        }
+    });
+</script>
 </body>
+ 
 </html>

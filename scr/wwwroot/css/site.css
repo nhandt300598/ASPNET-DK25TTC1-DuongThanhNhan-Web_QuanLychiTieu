@@ -189,4 +189,34 @@ html[data-theme="dark"],
  
 [data-theme="dark"] .dropdown-menu .dropdown-item.text-danger:hover {
     color: #ff6b6b !important;  
+} 
+[data-theme="dark"] .login-box,
+[data-theme="dark"] .card.shadow,
+[data-theme="dark"] .shadow-sm,
+[data-theme="dark"] .shadow {
+    background-color: #1e1e1e !important;
+    border: 1px solid #333333 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important; 
+}
+ 
+[data-theme="dark"] .login-box label,
+[data-theme="dark"] .card-body label,
+[data-theme="dark"] .text-muted,
+[data-theme="dark"] small {
+    color: #adb5bd !important;
+}
+
+[data-theme="dark"] .btn-outline-primary {
+    background-color: transparent !important;
+    color: #6ea8fe !important; 
+    border-color: #6ea8fe !important;
+}
+[data-theme="dark"] .btn-outline-primary:hover {
+    background-color: #6ea8fe !important;
+    color: #121212 !important; 
+}
+
+[data-theme="dark"] hr {
+    border-top-color: #444444 !important;
+    opacity: 1;
 }
