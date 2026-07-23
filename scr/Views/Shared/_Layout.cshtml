@@ -56,7 +56,11 @@
                     <ul class="navbar-nav flex-grow-1"></ul>
 
                     <ul class="navbar-nav align-items-center gap-2">
-
+                        <li class="nav-item" style="margin-right: 10px;">
+                            <button id="btn-theme-toggle" class="btn btn-outline-secondary btn-sm fw-bold shadow-sm px-3" title="Chuyển chế độ Sáng/Tối">
+                                <i class="fa-solid fa-moon" id="theme-icon"></i>
+                            </button>
+                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
                             string currentUser = User.Identity.Name?.Trim().ToLower() ?? "";
@@ -161,6 +165,47 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        const themeToggleBtn = document.getElementById('btn-theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement; 
+
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            htmlElement.setAttribute('data-theme', 'dark');
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        }
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                let theme = htmlElement.getAttribute('data-theme');
+
+                if (theme === 'dark') {
+                    htmlElement.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                } else {
+                    htmlElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            });
+        }
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
-</body>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    </body>
+
 </html>
